@@ -179,12 +179,12 @@ class Lexer:
         with open(filename, 'w') as tf:
             tf.write('# %s.py. This file automatically created by PLY (version %s). Don\'t edit!\n' % (basetabmodule, __version__))
             tf.write('_tabversion   = %s\n' % repr(__tabversion__))
-            tf.write('_lextokens    = %s\n' % repr(self.lextokens))
+            tf.write('_lextokens    = set((%s))\n' % repr(self.lextokens)[1:-1])
             tf.write('_lexreflags   = %s\n' % repr(self.lexreflags))
             tf.write('_lexliterals  = %s\n' % repr(self.lexliterals))
             tf.write('_lexstateinfo = %s\n' % repr(self.lexstateinfo))
 
-            # Rewrite the lexstatere table, replacing function objects with function names 
+            # Rewrite the lexstatere table, replacing function objects with function names
             tabre = {}
             for statename, lre in self.lexstatere.items():
                 titem = []
@@ -536,7 +536,7 @@ def _statetoken(s, names):
     for i, part in enumerate(parts[1:], 1):
         if part not in names and part != 'ANY':
             break
-    
+
     if i > 1:
         states = tuple(parts[1:i])
     else:
